@@ -10,26 +10,34 @@
     <link rel="stylesheet" href="src/style.css">
 </head>
 <body>
-    <header class="flex bg-gradient-to-r from-cyan-950 to-indigo-950 justify-between p-3 items-center w-screen fixed">
+    <header class="flex bg-gradient-to-r from-cyan-950 to-indigo-950 justify-around p-2 items-center w-screen fixed top-0">
         <strong class="flex text-nowrap text-white font-sans items-center">
             <span class="bg-green-600 rounded-full mx-2 p-1">&#9917;</span>
             TACHKILA
         </strong>
 
-        <div class="flex-wrap font-bold hidden sm:flex">
+        <nav class="bg-gradient-to-l from-cyan-800 to-indigo-800 p-2 rounded-lg">
+            <ul class="flex flex-row gap-2">
+                <li class="bg-cyan-900 p-2 rounded-lg text-white font-bold border-solid border-2 border-white border-opacity-60"><a href="src/pages/effectif.html">Effectif</a></li>
+                <li class="bg-cyan-900 p-2 rounded-lg text-white font-bold border-solid border-2 border-white border-opacity-70"><a href="#">Composition</a></li>
+                <li class="bg-cyan-900 p-2 rounded-lg text-white font-bold border-solid border-2 border-white border-opacity-80"><a href="src/pages/matches.html">Matches</a></li>
+            </ul>
+        </nav>
+
+        <div class="flex-wrap font-bold hidden sm:flex border-solid border-2 p-3 bg-indigo-950 [border-image:linear-gradient(to_right,yellow,blue,green,red)_1] rounded-lg">
             <span class="mx-2 text-nowrap text-yellow-500">&#9679; GB</span>
             <span class="mx-2 text-nowrap text-blue-500">&#9679; DEF</span>
             <span class="mx-2 text-nowrap text-green-500">&#9679; MIL</span>
             <span class="mx-2 text-nowrap text-red-500">&#9679; ATT</span>
         </div>  
 
-        <b class="text-white font-mono text-nowrap">Schéma <span class="font-mono bg-sky-800 p-2 rounded-lg text-nowrap">4-4-2</span></b> 
+        <b class="text-white font-mono text-nowrap">Schéma <span class="font-mono bg-sky-800 p-2 rounded-lg text-nowrap border-solid border-2 border-white">4-4-2</span></b> 
     </header>
 
     <div id="message" class="hidden fixed top-5 right-5 p-3 rounded-lg text-white font-bold z-50"></div>
 
     <section class="flex flex-col md:flex-row w-screen">
-        <aside class="flex flex-col lg:w-80 bg-gradient-to-b from-cyan-700 to-indigo-900 mt-14">
+        <aside class="flex flex-col lg:w-80 bg-gradient-to-b from-cyan-700 to-indigo-900 mt-[5.5vw]">
             <button id="btnOuvrir" class="bg-green-400 py-3 px-10 my-3 text-white mx-auto rounded-lg text-nowrap font-bold" popovertarget="dialogAjout">+ Ajouter un joueur</button>
             <dialog popover id="dialogAjout" class="bg-gradient-to-b from-blue-900 to-blue-600 rounded-lg">
                 <form class="formAjout flex flex-col p-4 px-4 gap-4 w-80 text-white">
@@ -84,7 +92,7 @@
             <ul id="listeJoueurs" class="flex flex-col gap-2 px-3 pb-3 max-h-[70vh] overflow-y-auto"></ul>
         </aside>
 
-        <main class="bg-gradient-to-b from-indigo-950 to-gray-950 w-full h-screen justify-items-center align-middle mt-14">
+        <main class="bg-gradient-to-b from-indigo-950 to-gray-950 w-full h-screen justify-items-center align-middle mt-[5.5vw]">
             <div class="divGrid my-3">
                 <div class="row">
                     <div></div> <div></div> <div></div> <div></div> <div></div> <div></div> <div></div> <div></div> <div></div> <div></div> <div></div> <div></div>
