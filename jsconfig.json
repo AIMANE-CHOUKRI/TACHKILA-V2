@@ -6,7 +6,7 @@
         "jsx": "react-jsx",
         "allowImportingTsExtensions": true,
         "checkJs": true,
-        "experimentalDecorators": false,
+        "experimentalDecorators": true,
         "strictNullChecks": false,
         "strictFunctionTypes": true,
         "strict": true
