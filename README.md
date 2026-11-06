@@ -7,12 +7,12 @@ Comprendre le métier : un joueur blessé ne peut pas jouer, l'équipe n'a qu'un
 - HTML5 sémantique
 - CSS3 : CSS Grid
 - Tailwind CSS
-- JavaScript (DOM)
+- JavaScript (DOM, modules)
 - Git et GitHub (branches, Pull Requests)
 - Atlassian Jira (planification)
 
 ## Liens
 - Répositoire GitHub : https://github.com/AIMANE-CHOUKRI/TACHKILA-V2
 - Planification des tâches (Jira) : https://aymanechoukri23.atlassian.net/jira/software/projects/TV2/boards/35?sprintStarted=true&filter=&groupBy=none&atlOrigin=eyJpIjoiOTIwYzU0NGUzNjk0NDg2Mzk4OTliYzQ2ZTE0MTdiOTIiLCJwIjoiaiJ9
-- Site déployé (Vercel) : 
-- Présentation Canva : 
+- Site déployé (Vercel) : https://tachkila-v2-mocha.vercel.app/
+- Présentation Canva : https://canva.link/5t6b6q8hb6lfmuz
