@@ -9,7 +9,8 @@
         "experimentalDecorators": true,
         "strictNullChecks": false,
         "strictFunctionTypes": true,
-        "strict": true
+        "strict": true,
+        "javascript.implicitProjectConfig.checkJs": true
     },
     "exclude": [
         "node_modules",
