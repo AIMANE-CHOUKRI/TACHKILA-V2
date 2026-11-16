@@ -25,7 +25,7 @@ export function ajouterJoueur(joueurs, {nom,age,poste,numero}){
     const nouveau = {
         id: Date.now(),
         nom: nom.trim(),
-        age: age === underfined ? null: Number(age),
+        age: age === undefined ? null: Number(age),
         numero: Number(numero),
         poste,
         position: 'banc'

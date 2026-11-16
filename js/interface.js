@@ -22,11 +22,13 @@ export function echapper(texte){
 
 export function lireFormulaireJoueur(){
     const poste = document.querySelector("input[name='poste']:checked");
+    const statut = document.querySelector("input[name='statut']:checked");
     const age = $('age');
     return {
         nom: $('nom').value.trim(),
         age: age ? age.value.trim() : undefined,
         poste: poste ? poste.value : '',
+        statut: statut ? statut.value : '',
         numero: $('numero').value.trim()
     };
 }
@@ -44,6 +46,9 @@ export function remplirFormulaire(joueur) {
     document.querySelectorAll("input[name='poste']").forEach((radio) => {
         radio.checked = (radio.value === joueur.poste);
     });
+    document.querySelectorAll("input[name='statut']").forEach((radio) => {
+        radio.checked = (radio.value === joueur.statut);
+    })
     if ($('h1Ajout')) $('h1Ajout').textContent = "Modifier le joueur";
     if ($('btnValider')) $('btnValider').textContent = "Modifier";
     $('dialogAjout').showPopover();
