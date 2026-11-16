@@ -1,7 +1,7 @@
 import { lireJoueurs, enregistrerJoueurs } from "./stockage.js";
 import { ajouterJoueur, modifierJoueur, supprimerJoueur } from "./joueurs.js";
 import { validerJoueur } from "./validation.js";
-import {afficherMessage, echapper, lireFormulaireJoueur, remplirFormulaireJoueur,fermerModale, initialiserModaleJoueur} from "./interface.js";
+import {afficherMessage, echapper, lireFormulaireJoueur, remplirFormulaire,fermerModale, initialiserModale} from "./interface.js";
 
 const form = document.querySelector('.formAjout');
 const listeJoueurs = document.getElementById('listeJoueurs');
@@ -30,7 +30,7 @@ function creerCarteJoueur(j) {
 
     li.querySelector('.btnEdit').addEventListener('click', () => {
         idEnModification = j.id;
-        remplirFormulaireJoueur(j);
+        remplirFormulaire(j);
     });
 
     li.querySelector('.btnDelete').addEventListener('click', () => {
@@ -50,7 +50,7 @@ function afficherJoueurs() {
     joueurs.forEach((j) => listeJoueurs.appendChild(creerCarteJoueur(j)));
 }
 
-initialiserModaleJoueur(() => { idEnModification = null; });
+initialiserModale(() => { idEnModification = null; });
 
 const spanTotal = document.querySelector("#spanTotal");
 const spanEnforme = document.querySelector("#spanEnforme");
