@@ -1,87 +1,135 @@
-export const AGE_MIN = 18;
-export const AGE_MAX = 39;
+export const ageMin = 18;
+export const ageMax = 39;
+export const nbGardiensMax = 2;
 
-export const REGEX_NOM = /^[\p{L}\s'’-]+$/u;
-
-// Validation Joueurs
+export const regexNom = /^[\p{L}][\p{L}\s'’-]{2,29}$/u;
+export const regexNumero = /^([1-9]|[1-9][0-9])$/;
+export const regexAge = /^(1[89]|2[0-9]|3[0-9])$/;
+export const regexAdversaire = /^[\p{L}\d][\p{L}\d\s'’.-]{1,29}$/u;
+export const regexLieu = /^[\p{L}\d][\p{L}\d\s'’.,-]{1,39}$/u;
+export const regexDate = /^\d{4}-\d{2}-\d{2}$/;
+export const regexHeure = /^([01][0-9]|2[0-3]):[0-5][0-9]$/;
+export const regexScore = /^[0-9]{1,2}$/;
 
 export function validerNom(nom) {
-    const n = nom.trim();
-    if (n.length < 3 || n.length > 30 || !REGEX_NOM.test(n) || !/\p{L}/u.test(n)) {
-        return "Nom invalide (3-30 lettres).";
+    if (!regexNom.test(nom.trim())) {
+        return "Le nom doit contenir 3 à 30 lettres.";
     }
     return '';
 }
 
 export function validerAge(age) {
-    const brut = String(age).trim();
-    const n = Number(brut);
-    if (brut === '' || !Number.isInteger(n) || n < AGE_MIN || n > AGE_MAX) {
-        return `Âge invalide (${AGE_MIN} à ${AGE_MAX}).`;
+    if (!regexAge.test(String(age).trim())) {
+        return `L'âge doit être compris entre ${ageMin} et ${ageMax} ans.`;
     }
     return '';
 }
 
-export function validerPoste(poste) {
-    return poste ? '' : "Sélectionnez un poste.";
+export function validerPoste(poste, joueurs, idIgnore = null) {
+    if (poste === '') {
+        return "Sélectionnez un poste.";
+    }
+    if (poste === 'gardien') {
+        const autresGardiens = joueurs.filter(j => j.poste === 'gardien' && j.id !== idIgnore);
+        if (autresGardiens.length >= nbGardiensMax) {
+            return `L'effectif compte déjà ${nbGardiensMax} gardiens.`;
+        }
+    }
+    return '';
 }
 
 export function validerNumero(numero, joueurs, idIgnore = null) {
-    const brut = String(numero).trim();
-    const n = Number(brut);
-    if (brut === '' || !Number.isInteger(n) || n < 1 || n > 99) {
-        return "Numéro invalide (1 à 99).";
+    const texte = String(numero).trim();
+    if (!regexNumero.test(texte)) {
+        return "Le numéro doit être compris entre 1 et 99.";
     }
-    const pris = joueurs.find(j => j.numero === n && j.id !== idIgnore);
-    return pris ? `Le numéro ${n} est déjà pris par ${pris.nom}.` : '';
+    const pris = joueurs.find(j => j.numero === Number(texte) && j.id !== idIgnore);
+    if (pris) {
+        return `Le numéro ${texte} est déjà pris par ${pris.nom}.`;
+    }
+    return '';
 }
 
-export function validerStatut(statut){
-    return statut ? '' : "Sélectionnez un statut." 
+export function validerStatut(statut) {
+    if (statut !== 'En forme' && statut !== 'Blessé') {
+        return "Sélectionnez un statut.";
+    }
+    return '';
 }
 
 export function validerJoueur({ nom, age, poste, numero, statut }, joueurs, idIgnore = null) {
-    return validerNom(nom)
-        || validerAge(age)
-        || validerPoste(poste)
-        || validerNumero(numero, joueurs, idIgnore)
-        || validerStatut(statut);
+    return {
+        nom: validerNom(nom),
+        age: validerAge(age),
+        poste: validerPoste(poste, joueurs, idIgnore),
+        numero: validerNumero(numero, joueurs, idIgnore),
+        statut: validerStatut(statut)
+    };
 }
 
-// Matches
+export function formulaireValide(erreurs) {
+    return !Object.values(erreurs).some(message => message !== '');
+}
 
-export function validerNomMatch(nomMatch) {
-    const n = nomMatch.trim();
-    if (n.length < 3 || n.length > 30 || !REGEX_NOM.test(n) || !/\p{L}/u.test(n)) {
-        return "Nom d'équipe invalide (3-30 lettres).";
+export function validerAdversaire(adversaire) {
+    if (!regexAdversaire.test(adversaire.trim())) {
+        return "L'adversaire doit contenir 2 à 30 caractères.";
     }
     return '';
 }
 
-export function validerDate(date){
-    return date ? '' : "Sélectionnez une date." 
-}
-
-export function validerHeure(heure){
-    return heure ? '' : "Sélectionnez un heure." 
-}
-
-export function validerAdresse(adresse) {
-    const n = adresse.trim();
-    if (n.length < 3 || n.length > 30 || !REGEX_NOM.test(n) || !/\p{L}/u.test(n)) {
-        return "Lieu invalide (3-30 lettres).";
+export function validerDate(date) {
+    if (!regexDate.test(date)) {
+        return "Choisissez une date valide.";
+    }
+    const d = new Date(date);
+    if (Number.isNaN(d.getTime()) || d.toISOString().slice(0, 10) !== date) {
+        return "Choisissez une date valide.";
     }
     return '';
 }
 
-export function validerLieu(lieu){
-    return lieu ? '' : "Sélectionnez un lieu." 
+export function validerHeure(heure) {
+    if (!regexHeure.test(heure)) {
+        return "Saisissez une heure valide (HH:MM).";
+    }
+    return '';
 }
 
-export function validerMatch(nomMatch, date, heure, adresse, lieu) {
-    return validerNomMatch(nomMatch)
-        || validerDate(date)
-        || validerHeure(heure)
-        || validerAdresse(adresse)
-        || validerLieu(lieu);
+export function validerLieu(lieu) {
+    if (!regexLieu.test(lieu.trim())) {
+        return "Le lieu doit contenir 2 à 40 caractères.";
+    }
+    return '';
+}
+
+export function validerType(type) {
+    if (type !== 'domicile' && type !== 'exterieur') {
+        return "Choisissez domicile ou extérieur.";
+    }
+    return '';
+}
+
+export function validerMatch({ adversaire, date, heure, lieu, type }) {
+    return {
+        adversaire: validerAdversaire(adversaire),
+        date: validerDate(date),
+        heure: validerHeure(heure),
+        lieu: validerLieu(lieu),
+        type: validerType(type)
+    };
+}
+
+export function validerScore(score) {
+    if (!regexScore.test(String(score).trim())) {
+        return "Le score doit être un nombre entre 0 et 99.";
+    }
+    return '';
+}
+
+export function validerScores({ scoreAtlas, scoreAdverse }) {
+    return {
+        scoreAtlas: validerScore(scoreAtlas),
+        scoreAdverse: validerScore(scoreAdverse)
+    };
 }
