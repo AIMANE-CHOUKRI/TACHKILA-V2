@@ -3,87 +3,139 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="TACHKILA : préparez la composition de votre équipe de football en schéma 4-4-2.">
-    <title>TACHKILA</title>
+    <title>Matchs - TACHKILA</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="js/page-matches.js" type="module"></script>
     <link rel="stylesheet" href="css/style.css">
 </head>
-<body>
-    <header class="flex bg-gradient-to-r from-cyan-950 to-indigo-950 justify-around p-2 items-center w-screen fixed top-0">
-        <strong class="flex text-nowrap text-white font-sans items-center">
-            <span class="bg-green-600 rounded-full mx-2 p-1">&#9917;</span>
-            TACHKILA
-        </strong>
+<body class="bg-gray-950 text-white">
+    <a href="#contenu" class="sr-only focus:not-sr-only focus:absolute focus:left-2 focus:top-2 focus:z-50 focus:rounded focus:bg-white focus:p-2 focus:text-black">Aller au contenu</a>
 
-        <nav class="bg-gradient-to-l from-cyan-800 to-indigo-800 p-2 rounded-lg">
+    <header class="sticky top-0 z-40 flex flex-wrap items-center justify-between gap-3 bg-gradient-to-r from-cyan-950 to-indigo-950 px-4 py-2">
+        <a href="index.html" class="flex items-center gap-2 font-bold text-white">
+            <span class="rounded-full bg-green-600 p-1" aria-hidden="true">&#9917;</span>
+            TACHKILA
+        </a>
+
+        <nav aria-label="Navigation principale" class="rounded-lg bg-gradient-to-l from-cyan-800 to-indigo-800 p-2">
             <ul class="flex flex-row gap-1">
-                <a href="index.html"><li class="bg-cyan-900 p-2 rounded-lg text-white font-bold border-solid border-2 border-white border-opacity-60">Effectif</li></a>
-                <a href="composition.html"><li class="bg-cyan-900 p-2 rounded-lg text-white font-bold border-solid border-2 border-white border-opacity-70">Composition</li></a>
-                <a href="#"><li class="bg-cyan-600 p-2 rounded-lg text-white font-bold border-solid border-2 border-white border-opacity-80">Matches</li></a>
+                <li><a href="index.html" class="block rounded-lg border-2 border-white/60 p-2 font-bold text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white bg-cyan-900 hover:bg-cyan-700">Effectif</a></li>
+                <li><a href="composition.html" class="block rounded-lg border-2 border-white/60 p-2 font-bold text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white bg-cyan-900 hover:bg-cyan-700">Composition</a></li>
+                <li><a href="matches.html" aria-current="page" class="block rounded-lg border-2 border-white/60 p-2 font-bold text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white bg-cyan-600">Matchs</a></li>
             </ul>
         </nav>
 
-        <div class="flex-wrap font-bold hidden sm:flex border-solid border-2 p-3 bg-indigo-950 [border-image:linear-gradient(to_right,yellow,blue,green,red)_1] rounded-lg">
-            <span class="mx-2 text-nowrap text-yellow-500">&#9679; GB</span>
-            <span class="mx-2 text-nowrap text-blue-500">&#9679; DEF</span>
-            <span class="mx-2 text-nowrap text-green-500">&#9679; MIL</span>
-            <span class="mx-2 text-nowrap text-red-500">&#9679; ATT</span>
-        </div>  
+        <ul aria-label="Légende des postes" class="hidden flex-wrap rounded-lg border-2 border-solid bg-indigo-950 p-3 font-bold [border-image:linear-gradient(to_right,yellow,blue,green,red)_1] md:flex">
+            <li class="mx-2 text-nowrap text-yellow-500"><span aria-hidden="true">&#9679;</span> GB</li>
+            <li class="mx-2 text-nowrap text-blue-500"><span aria-hidden="true">&#9679;</span> DEF</li>
+            <li class="mx-2 text-nowrap text-green-500"><span aria-hidden="true">&#9679;</span> MIL</li>
+            <li class="mx-2 text-nowrap text-red-500"><span aria-hidden="true">&#9679;</span> ATT</li>
+        </ul>
 
-        <b class="text-white font-mono text-nowrap">Schéma <span class="font-mono bg-sky-800 p-2 rounded-lg text-nowrap border-solid border-2 border-white">4-4-2</span></b> 
+        <p class="text-nowrap font-mono font-bold text-white">Schéma <span class="rounded-lg border-2 border-solid border-white bg-sky-800 p-2">4-4-2</span></p>
     </header>
 
-    <div id="message" class="hidden fixed top-5 right-5 p-3 rounded-lg text-white font-bold z-50"></div>
+    <div id="message" role="status" aria-live="polite" class="hidden fixed right-5 top-20 z-50 rounded-lg p-3 font-bold text-white shadow-lg"></div>
 
-    <section class="mt-[5.5vw] bg-gradient-to-b from-indigo-950 to-gray-950 h-screen justify-items-center align-middle mt-[5.5vw]">
-        <button id="btnOuvrir" class="bg-green-400 py-3 px-10 my-3 text-white mx-auto rounded-lg text-nowrap font-bold" popovertarget="dialogAjout">+ Ajouter un match</button>
-        <div class="flex justify-between items-center text-white p-2 w-full max-w-5xl mx-auto">
-            <h2 class="font-bold">Effectif</h2>
-            <div class="p-2 bg-blue-950 rounded-lg"><span id="nbMatches">0</span> Matche(s)</div>
-        </div>
-        <ul id="listeMatches" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 px-3 pb-3 w-full max-w-5xl mx-auto"></ul>
+    <main id="contenu" class="min-h-screen bg-[#141336]">
+        <div class="mx-auto max-w-4xl px-4 py-6">
+            <div class="mb-5">
+                <button type="button" id="btnOuvrirMatch" popovertarget="dialogMatch" class="rounded-lg bg-emerald-500 px-6 py-3 font-bold text-white hover:bg-emerald-400">
+                    + Ajouter un match
+                </button>
+            </div>
 
-        <dialog popover id="dialogAjout" class="bg-gradient-to-b from-blue-900 to-blue-600 rounded-lg">
-            <form class="formAjout flex flex-col p-7 px-4 gap-1 w-80 text-white">
-                <div class="flex justify-between items-center">
-                    <h1 id="h1Ajout" class="font-bold">Ajouter un match</h1>
-                    <button type="button" id="btnFermer" class="text-white font-bold">&times;</button>
+            <section aria-label="Filtres et recherche" class="mb-5 rounded-xl bg-[#18337a] p-4">
+                <div class="flex flex-wrap items-center gap-3">
+                    <label for="rechercheMatch" class="sr-only">Rechercher un adversaire</label>
+                    <input type="search" id="rechercheMatch" placeholder="Rechercher un adversaire..." class="w-full max-w-xs rounded-md bg-white px-3 py-2 text-sm font-medium text-black placeholder:text-slate-500 focus:outline-none">
+
+                    <div id="ongletsMatches" role="group" aria-label="Filtrer les matchs" class="flex flex-wrap gap-1.5">
+                        <button type="button" data-onglet="tous" aria-pressed="true" class="rounded-md px-3 py-1.5 text-sm font-bold">Tous (<span id="nbTous">0</span>)</button>
+                        <button type="button" data-onglet="avenir" aria-pressed="false" class="rounded-md px-3 py-1.5 text-sm font-bold">À venir (<span id="nbAvenir">0</span>)</button>
+                        <button type="button" data-onglet="joues" aria-pressed="false" class="rounded-md px-3 py-1.5 text-sm font-bold">Joués (<span id="nbJoues">0</span>)</button>
+                    </div>
                 </div>
+            </section>
 
-                <label for="adversaire">Adversaire</label>
-                <input type="text" id="adversaire" name="adversaire" placeholder="Ex. FC Atlas" class="text-black p-2 rounded-md bg-white">
-                <span class="text-red-400 text-xs"></span>
+            <ul id="listeMatches" class="flex flex-col gap-3"></ul>
+        </div>
+    </main>
 
-                <label for="date">Date</label>
-                <input type="date" id="date" name="date" class="text-black p-2 rounded-md bg-white">
-                <span class="text-red-400 text-xs"></span>
+    <dialog popover id="dialogMatch" aria-labelledby="titreModaleMatch" class="rounded-lg border border-slate-600 bg-slate-800 p-0 text-white">
+        <form id="formMatch" novalidate class="flex w-[24rem] max-w-[90vw] flex-col gap-2 p-5">
+            <div class="flex items-center justify-between">
+                <h2 id="titreModaleMatch" class="text-xl font-bold">Ajouter un match</h2>
+                <button type="button" data-fermer aria-label="Fermer la fenêtre" class="px-2 text-2xl font-bold text-slate-300 hover:text-white">&times;</button>
+            </div>
 
-                <label for="heure">Heure</label>
-                <input type="time" id="heure" name="heure" class="text-black p-2 rounded-md bg-white">
-                <span class="text-red-400 text-xs"></span>
-                
-                <label for="adresse">Lieu</label>
-                <input type="text" id="adresse" name="adresse" class="text-black p-2 rounded-md bg-white">
-                <span class="text-red-400 text-xs"></span>
+            <label for="adversaire" class="font-bold">Adversaire</label>
+            <input type="text" id="adversaire" name="adversaire" placeholder="Ex. Olympique Safran" class="w-full rounded-md bg-white p-2 text-black">
+            <span id="erreur-adversaire" class="erreur min-h-4 text-xs text-red-300"></span>
 
-                <label for="lieu">Lieu du match</label>
-                <div class="flex justify-between" id="fieldsetLieu">
-                    <label for="domicile" class="bg-blue-950 w-[49%] p-3 rounded-lg cursor-pointer has-[:checked]:ring-2 has-[:checked]:ring-green-500 has-[:checked]:text-green-300">
-                        <input type="radio" name="lieu" value="Domicile" id="domicile" class="sr-only">&#9679; Domicile
+            <div class="grid grid-cols-2 gap-3">
+                <div class="flex flex-col gap-2">
+                    <label for="date" class="font-bold">Date</label>
+                    <input type="date" id="date" name="date" class="w-full rounded-md bg-white p-2 text-black">
+                    <span id="erreur-date" class="erreur min-h-4 text-xs text-red-300"></span>
+                </div>
+                <div class="flex flex-col gap-2">
+                    <label for="heure" class="font-bold">Heure</label>
+                    <input type="time" id="heure" name="heure" class="w-full rounded-md bg-white p-2 text-black">
+                    <span id="erreur-heure" class="erreur min-h-4 text-xs text-red-300"></span>
+                </div>
+            </div>
+
+            <label for="lieu" class="font-bold">Lieu</label>
+            <input type="text" id="lieu" name="lieu" placeholder="Ex. Stade Municipal Oasis" class="w-full rounded-md bg-white p-2 text-black">
+            <span id="erreur-lieu" class="erreur min-h-4 text-xs text-red-300"></span>
+
+            <fieldset>
+                <legend class="mb-2 font-bold">Lieu du match</legend>
+                <div class="grid grid-cols-2 gap-2">
+                    <label for="domicile" class="cursor-pointer rounded-lg bg-blue-950 p-3 has-[:checked]:ring-2 has-[:checked]:ring-green-500">
+                        <input type="radio" name="type" value="domicile" id="domicile" class="sr-only">&#9679; Domicile
                     </label>
-                    <label for="exterieur" class="bg-blue-950 w-[49%] p-3 rounded-lg cursor-pointer has-[:checked]:ring-2 has-[:checked]:ring-green-500 has-[:checked]:text-green-300">
-                        <input type="radio" name="lieu" value="Extérieur" id="exterieur" class="sr-only">&#9679; Extérieur
+                    <label for="exterieur" class="cursor-pointer rounded-lg bg-blue-950 p-3 has-[:checked]:ring-2 has-[:checked]:ring-blue-500">
+                        <input type="radio" name="type" value="exterieur" id="exterieur" class="sr-only">&#9679; Extérieur
                     </label>
-                </div>  
+                </div>
+                <span id="erreur-type" class="erreur block min-h-4 text-xs text-red-300"></span>
+            </fieldset>
 
-                <span class="flex gap-2 justify-end">
-                    <button type="button" class="bg-blue-950 rounded-lg w-20 mb-1 h-10" id="btnAnnuler">Annuler</button>
-                    <button type="submit" class="bg-green-500 rounded-lg w-20 h-10" id="btnValider">Ajouter</button>
-                </span>
-            </form>                
-        </dialog>
-    </section>
+            <div class="mt-2 flex justify-end gap-2">
+                <button type="button" data-fermer class="h-10 rounded-lg bg-blue-950 px-4 font-bold hover:bg-blue-900">Annuler</button>
+                <button type="submit" id="btnValiderMatch" class="h-10 rounded-lg bg-green-600 px-4 font-bold hover:bg-green-500">Enregistrer</button>
+            </div>
+        </form>
+    </dialog>
 
+    <dialog popover id="dialogScore" aria-labelledby="titreModaleScore" class="rounded-lg border border-slate-600 bg-slate-800 p-0 text-white">
+        <form id="formScore" novalidate class="flex w-[22rem] max-w-[90vw] flex-col gap-2 p-5">
+            <div class="flex items-center justify-between">
+                <h2 id="titreModaleScore" class="text-xl font-bold">Saisir le score</h2>
+                <button type="button" data-fermer aria-label="Fermer la fenêtre" class="px-2 text-2xl font-bold text-slate-300 hover:text-white">&times;</button>
+            </div>
+            <p id="texteScoreMatch" class="text-slate-300"></p>
+
+            <div class="grid grid-cols-2 gap-3">
+                <div class="flex flex-col gap-2">
+                    <label for="scoreAtlas" class="font-bold">Buts Atlas FC</label>
+                    <input type="number" id="scoreAtlas" name="scoreAtlas" min="0" max="99" class="w-full rounded-md bg-white p-2 text-black">
+                    <span id="erreur-scoreAtlas" class="erreur min-h-4 text-xs text-red-300"></span>
+                </div>
+                <div class="flex flex-col gap-2">
+                    <label for="scoreAdverse" class="font-bold">Buts adversaire</label>
+                    <input type="number" id="scoreAdverse" name="scoreAdverse" min="0" max="99" class="w-full rounded-md bg-white p-2 text-black">
+                    <span id="erreur-scoreAdverse" class="erreur min-h-4 text-xs text-red-300"></span>
+                </div>
+            </div>
+
+            <div class="mt-2 flex justify-end gap-2">
+                <button type="button" data-fermer class="h-10 rounded-lg bg-blue-950 px-4 font-bold hover:bg-blue-900">Annuler</button>
+                <button type="submit" class="h-10 rounded-lg bg-green-600 px-4 font-bold hover:bg-green-500">Enregistrer le score</button>
+            </div>
+        </form>
+    </dialog>
 </body>
 </html>
