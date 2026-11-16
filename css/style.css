@@ -1,31 +1,61 @@
 .divGrid {
+    --gap: 0.6vw;
+    --ligne: 3.75vw;
     background-color: darkslateblue;
     width: 62vw;
-    padding: 0.6vw 0.6vw 0 0.6vw;
+    padding: var(--gap) var(--gap) 0 var(--gap);
     border: 2px solid rgb(187, 128, 229);
 }
 
 .row {
-  display: grid;
-  grid-template-columns: repeat(12, 1fr);
-  grid-template-rows: 3.75vw;
-  column-gap: 0.6vw;
-  margin-bottom: 0.6vw;
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    grid-template-rows: var(--ligne);
+    column-gap: var(--gap);
+    margin-bottom: var(--gap);
 }
 
 .row div {
-  border: 1px solid rgb(254, 254, 254);
+    border: 1px solid rgb(254, 254, 254);
 }
 
 .keeper {
-  grid-column: 1 / 3;
-  height: 12.45vw;
+    grid-column: 1 / 3;
+    height: calc(var(--ligne) * 3 + var(--gap) * 2);
 }
 
 .slot {
-  grid-column-end: span 2;
+    grid-column-end: span 2;
 }
 
 .start3 {
-  grid-column-start: 3;
+    grid-column-start: 3;
+}
+
+.slot.libre,
+.keeper.libre {
+    border-style: dashed;
+    opacity: 0.75;
+}
+
+.slot.occupee,
+.keeper.occupee {
+    border-style: solid;
+}
+
+@media (max-width: 1023px) {
+    .divGrid {
+        --gap: 4px;
+        --ligne: clamp(32px, 7vw, 52px);
+        width: 96vw;
+    }
+}
+
+[popover]::backdrop {
+    background-color: rgb(0 0 0 / 0.6);
+}
+
+dialog[popover] {
+    max-height: 95vh;
+    overflow-y: auto;
 }

@@ -1,105 +1,125 @@
 import { lireJoueurs, enregistrerJoueurs } from "./stockage.js";
-import {ajouterJoueur, modifierJoueur, supprimerJoueur, placerJoueur,positionsPourPoste, joueurALaPosition, compterPlaces} from "./joueurs.js";
-import { validerJoueur } from "./validation.js";
-import {afficherMessage, echapper, lireFormulaireJoueur, remplirFormulaire,fermerModale, initialiserModale} from "./interface.js";
+import { positionsPourPoste, joueurALaPosition, compterPlaces, peutPlacer, placerJoueur, trouverJoueur } from "./joueurs.js";
+import { $, couleursPoste, creerElement, afficherMessage } from "./interface.js";
 
-const form = document.querySelector('.formAjout');
-const listeJoueurs = document.getElementById('listeJoueurs');
-const nbJoueurs = document.getElementById('nbJoueurs');
-const nbPlaces = document.getElementById('nbPlaces');
+const listeJoueurs = $('listeJoueurs');
 
 let joueurs = lireJoueurs();
-let idEnModification = null;
 
-function mettreAJourTerrain() {
-    document.querySelectorAll('.slot, .keeper').forEach((slot) => {
-        const code = slot.getAttribute('data-position');
-        const joueur = joueurALaPosition(joueurs, code);
-        slot.textContent = joueur ? joueur.numero + ' - ' + joueur.nom : code.toUpperCase();
-    });
+function creerOption(valeur, texte, desactivee = false) {
+    const option = document.createElement('option');
+    option.value = valeur;
+    option.textContent = texte;
+    option.disabled = desactivee;
+    return option;
+}
+
+function creerSelect(j) {
+    const select = creerElement('select', 'mt-2 w-full rounded-md border border-slate-600 bg-[#0e1b4d] p-2 text-sm text-white disabled:text-slate-400');
+    select.setAttribute('aria-label', `Position de ${j.nom}`);
+
+    if (j.statut === 'Blessé') {
+        select.appendChild(creerOption('banc', 'Indisponible'));
+        select.disabled = true;
+        return select;
+    }
+
+    select.appendChild(creerOption('banc', 'Sur le banc'));
+    for (const [code, libelle] of positionsPourPoste(j.poste)) {
+        const occupant = joueurALaPosition(joueurs, code);
+        const prisParUnAutre = occupant !== null && occupant.id !== j.id;
+        select.appendChild(creerOption(code, prisParUnAutre ? `${libelle} (occupée)` : libelle, prisParUnAutre));
+    }
+    select.value = j.position;
+    return select;
 }
 
 function creerCarteJoueur(j) {
-    const estPlace = j.position && j.position !== 'banc';
-    const li = document.createElement('li');
-    li.className = 'bg-blue-950 p-4 rounded-lg text-white';
-    if (estPlace) li.style.opacity = '0.5';
+    const couleur = couleursPoste[j.poste];
+    const estBlesse = j.statut === 'Blessé';
+    const estPlace = j.position !== 'banc';
 
-    const options = positionsPourPoste(j.poste)
-        .map(([code, libelle]) => `<option value="${code}" ${j.position === code ? 'selected' : ''}>${libelle}</option>`)
-        .join('');
+    const pale = estPlace ? 'opacity-70' : (estBlesse ? 'opacity-60' : '');
+    const carte = creerElement('li', `rounded-xl border-l-4 bg-[#0e1b4d] p-3 text-white ${couleur.bordure} ${pale}`);
+    carte.dataset.id = j.id;
 
-    li.innerHTML = `
-        <div class="flex justify-between items-center text-white">
-            <h2 class="bg-cyan-500 p-2 rounded-full font-bold">${j.numero}</h2>
-            <span>
-                <h3>${echapper(j.nom)}</h3>
-                <h4>${echapper(j.poste)}</h4>
-            </span>
-        </div>
-        <select class="selectPoste w-full mt-2 text-black p-1 rounded">
-            <option value="banc" ${j.position === 'banc' ? 'selected' : ''}>Sur le banc</option>
-            ${options}
-        </select>
-    `;
+    const haut = creerElement('div', 'flex items-center gap-2');
+    const numero = creerElement('span', `flex h-8 w-8 shrink-0 items-center justify-center rounded-full border-2 text-sm font-bold ${couleur.cercle}`, j.numero);
+    const nom = creerElement('span', 'min-w-0 flex-1 truncate text-sm font-bold', j.nom);
+    const poste = creerElement('span', `rounded px-2 py-0.5 text-xs font-bold ${couleur.badge}`, couleur.abrev);
+    haut.appendChild(numero);
+    haut.appendChild(nom);
+    haut.appendChild(poste);
+    if (estBlesse) {
+        haut.appendChild(creerElement('span', 'rounded bg-red-500/20 px-2 py-0.5 text-xs font-bold text-red-300', 'Blessé'));
+    }
 
-    // li.querySelector('.btnEdit').addEventListener('click', () => {
-    //     idEnModification = j.id;
-    //     remplirFormulaire(j);
-    // });
+    carte.appendChild(haut);
+    carte.appendChild(creerSelect(j));
+    return carte;
+}
 
-    // li.querySelector('.btnDelete').addEventListener('click', () => {
-    //     if (!confirm("Supprimer ce joueur ?")) return;
-    //     joueurs = supprimerJoueur(joueurs, j.id);
-    //     enregistrerJoueurs(joueurs);
-    //     afficherJoueurs();
-    //     afficherMessage("Joueur supprimé");
-    // });
+function afficherListe() {
+    listeJoueurs.textContent = '';
 
-    const select = li.querySelector('.selectPoste');
-    select.addEventListener('change', (e) => {
-        const position = e.target.value;
-        const resultat = placerJoueur(joueurs, j.id, position);
-        if (resultat === null) {
-            afficherMessage("Cette position est occupée !", true);
-            select.value = j.position || 'banc';
-            return;
+    if (joueurs.length === 0) {
+        listeJoueurs.appendChild(creerElement('li', 'p-3 text-center text-sm text-white', "Aucun joueur. Ajoutez-en depuis la page Effectif."));
+    }
+    const joueursTries = [...joueurs].sort((a, b) => a.numero - b.numero);
+    for (const j of joueursTries) {
+        listeJoueurs.appendChild(creerCarteJoueur(j));
+    }
+}
+
+function afficherTerrain() {
+    for (const caseTerrain of document.querySelectorAll('[data-position]')) {
+        const joueur = joueurALaPosition(joueurs, caseTerrain.dataset.position);
+        caseTerrain.textContent = '';
+        caseTerrain.classList.toggle('libre', joueur === null);
+        caseTerrain.classList.toggle('occupee', joueur !== null);
+
+        const contenu = creerElement('div', 'flex min-w-0 items-center gap-1 px-1');
+        if (joueur === null) {
+            contenu.className = 'flex flex-col items-center leading-tight';
+            contenu.appendChild(creerElement('span', 'text-sm font-bold', caseTerrain.dataset.label));
+            contenu.appendChild(creerElement('span', 'text-xs', 'Libre'));
+        } else {
+            contenu.appendChild(creerElement('span', 'flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-black/50 text-xs font-bold', joueur.numero));
+            contenu.appendChild(creerElement('span', 'hidden truncate text-xs font-bold sm:inline', joueur.nom));
         }
-        joueurs = resultat;
-        enregistrerJoueurs(joueurs);
-        afficherJoueurs();
-        afficherMessage(position === 'banc' ? "Joueur remis sur le banc" : "Joueur placé !");
-    });
-
-    return li;
+        caseTerrain.appendChild(contenu);
+    }
 }
 
-function afficherJoueurs() {
-    listeJoueurs.innerHTML = '';
-    joueurs.forEach((j) => listeJoueurs.appendChild(creerCarteJoueur(j)));
-    nbJoueurs.textContent = joueurs.length;
-    nbPlaces.textContent = compterPlaces(joueurs);
-    mettreAJourTerrain();
+function afficherCompteurs() {
+    $('nbJoueurs').textContent = joueurs.length;
+    $('nbPlaces').textContent = compterPlaces(joueurs);
 }
 
-initialiserModale(() => { idEnModification = null; });
+function afficherTout() {
+    afficherListe();
+    afficherTerrain();
+    afficherCompteurs();
+}
 
-form.addEventListener('submit', (e) => {
-    e.preventDefault();
+listeJoueurs.addEventListener('change', (e) => {
+    const select = e.target.closest('select');
+    if (!select) return;
 
-    const donnees = lireFormulaireJoueur();
-    const erreur = validerJoueur(donnees, joueurs, idEnModification);
-    if (erreur) return afficherMessage(erreur, true);
+    const joueur = trouverJoueur(joueurs, Number(select.closest('li').dataset.id));
+    const position = select.value;
 
-    const modification = idEnModification !== null;
-    joueurs = modification
-        ? modifierJoueur(joueurs, idEnModification, donnees)
-        : ajouterJoueur(joueurs, donnees);
+    const erreur = peutPlacer(joueurs, joueur.id, position);
+    if (erreur !== '') {
+        afficherMessage(erreur, true);
+        afficherTout();
+        return;
+    }
 
+    joueurs = placerJoueur(joueurs, joueur.id, position);
     enregistrerJoueurs(joueurs);
-    fermerModale();
-    afficherJoueurs();
-    afficherMessage(modification ? "Joueur modifié avec succès" : "Joueur ajouté avec succès");
+    afficherTout();
+    afficherMessage(position === 'banc' ? `${joueur.nom} retourne sur le banc.` : `${joueur.nom} est placé sur le terrain.`);
 });
 
-afficherJoueurs();
+afficherTout();
