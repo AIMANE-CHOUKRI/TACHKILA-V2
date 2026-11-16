@@ -37,44 +37,45 @@
     <div id="message" class="hidden fixed top-5 right-5 p-3 rounded-lg text-white font-bold z-50"></div>
 
     <section class="mt-[5.5vw] bg-gradient-to-b from-indigo-950 to-gray-950 h-screen justify-items-center align-middle mt-[5.5vw]">
-        <button id="btnOuvrir" class="bg-green-400 py-3 px-10 my-3 text-white mx-auto rounded-lg text-nowrap font-bold" popovertarget="dialogAjout">+ Ajouter un joueur</button>
+        <button id="btnOuvrir" class="bg-green-400 py-3 px-10 my-3 text-white mx-auto rounded-lg text-nowrap font-bold" popovertarget="dialogAjout">+ Ajouter un match</button>
+        <div class="flex justify-between items-center text-white p-2 w-full max-w-5xl mx-auto">
+            <h2 class="font-bold">Effectif</h2>
+            <div class="p-2 bg-blue-950 rounded-lg"><span id="nbMatches">0</span> Matche(s)</div>
+        </div>
+        <ul id="listeMatches" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 px-3 pb-3 w-full max-w-5xl mx-auto"></ul>
+
         <dialog popover id="dialogAjout" class="bg-gradient-to-b from-blue-900 to-blue-600 rounded-lg">
-            <form class="formAjout flex flex-col p-4 px-4 gap-2 w-80 text-white">
+            <form class="formAjout flex flex-col p-7 px-4 gap-1 w-80 text-white">
                 <div class="flex justify-between items-center">
-                    <h1 id="h1Ajout" class="font-bold">Ajouter un joueur</h1>
+                    <h1 id="h1Ajout" class="font-bold">Ajouter un match</h1>
                     <button type="button" id="btnFermer" class="text-white font-bold">&times;</button>
                 </div>
 
-                <label for="nom">Nom complet</label>
-                <input type="text" id="nom" name="nom" placeholder="Ex. Yassine Bono" class="text-black p-2 rounded-md bg-white">
+                <label for="adversaire">Adversaire</label>
+                <input type="text" id="adversaire" name="adversaire" placeholder="Ex. FC Atlas" class="text-black p-2 rounded-md bg-white">
                 <span class="text-red-400 text-xs"></span>
 
-                <label for="age">Âge (18 à 39)</label>
-                <input type="number" id="age" name="age" placeholder="Ex. 25" class="text-black p-2 rounded-md bg-white">
+                <label for="date">Date</label>
+                <input type="date" id="date" name="date" class="text-black p-2 rounded-md bg-white">
                 <span class="text-red-400 text-xs"></span>
 
-                <label for="poste">Poste</label>
-                <div class="flex justify-between" id="fieldsetPoste">
-                    <label for="gardien" class="bg-blue-950 w-[49%] p-3 rounded-lg cursor-pointer has-[:checked]:ring-2 has-[:checked]:ring-yellow-500 has-[:checked]:text-yellow-300">
-                        <input type="radio" name="poste" value="gardien" id="gardien" class="sr-only">&#9679; Gardien
-                    </label>
-                    <label for="defenseur" class="bg-blue-950 w-[49%] p-3 rounded-lg cursor-pointer has-[:checked]:ring-2 has-[:checked]:ring-blue-500 has-[:checked]:text-blue-300">
-                        <input type="radio" name="poste" value="defenseur" id="defenseur" class="sr-only">&#9679; Défenseur
-                    </label>
-                </div>
-                <div class="flex justify-between">
-                    <label for="milieu" class="bg-blue-950 w-[49%] p-3 rounded-lg cursor-pointer has-[:checked]:ring-2 has-[:checked]:ring-green-500 has-[:checked]:text-green-300">
-                        <input type="radio" name="poste" value="milieu" id="milieu" class="sr-only">&#9679; Milieu
-                    </label>
-                    <label for="attaquant" class="bg-blue-950 w-[49%] p-3 rounded-lg cursor-pointer has-[:checked]:ring-2 has-[:checked]:ring-red-500 has-[:checked]:text-red-300">
-                        <input type="radio" name="poste" value="attaquant" id="attaquant" class="sr-only">&#9679; Attaquant
-                    </label>
-                </div>
+                <label for="heure">Heure</label>
+                <input type="time" id="heure" name="heure" class="text-black p-2 rounded-md bg-white">
+                <span class="text-red-400 text-xs"></span>
+                
+                <label for="adresse">Lieu</label>
+                <input type="text" id="adresse" name="adresse" class="text-black p-2 rounded-md bg-white">
                 <span class="text-red-400 text-xs"></span>
 
-                <label for="numero">Numéro (1 à 99)</label>
-                <input type="number" id="numero" name="numero" placeholder="Ex. 7" class="text-black p-2 rounded-md bg-white">
-                <span class="text-red-400 text-xs"></span>
+                <label for="lieu">Lieu du match</label>
+                <div class="flex justify-between" id="fieldsetLieu">
+                    <label for="domicile" class="bg-blue-950 w-[49%] p-3 rounded-lg cursor-pointer has-[:checked]:ring-2 has-[:checked]:ring-green-500 has-[:checked]:text-green-300">
+                        <input type="radio" name="lieu" value="Domicile" id="domicile" class="sr-only">&#9679; Domicile
+                    </label>
+                    <label for="exterieur" class="bg-blue-950 w-[49%] p-3 rounded-lg cursor-pointer has-[:checked]:ring-2 has-[:checked]:ring-green-500 has-[:checked]:text-green-300">
+                        <input type="radio" name="lieu" value="Extérieur" id="exterieur" class="sr-only">&#9679; Extérieur
+                    </label>
+                </div>  
 
                 <span class="flex gap-2 justify-end">
                     <button type="button" class="bg-blue-950 rounded-lg w-20 mb-1 h-10" id="btnAnnuler">Annuler</button>

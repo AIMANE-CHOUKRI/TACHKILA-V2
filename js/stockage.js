@@ -1,4 +1,4 @@
-import { joueursInitiaux } from "./donnees-initiales";
+import { joueursInitiaux, matchesInitiaux } from "./donnees-initiales.js";
 
 function lire(cle, parDefaut) {
     try {
@@ -13,10 +13,18 @@ function enregistrer(cle, valeur) {
     localStorage.setItem(cle, JSON.stringify(valeur));
 }
 
-export function lireJoueurs(){
-    return lire('joueurs',joueursInitiaux);
+export function lireJoueurs() {
+    return lire('joueurs', joueursInitiaux);
 }
 
-export function enregistrerJoueurs(joueurs){
-    enregistrer('joueurs',joueurs);
+export function enregistrerJoueurs(joueurs) {
+    enregistrer('joueurs', joueurs);
+}
+
+export function lireMatches() {
+    return lire('matches', matchesInitiaux);
+}
+
+export function enregistrerMatches(matches) {
+    enregistrer('matches', matches);
 }

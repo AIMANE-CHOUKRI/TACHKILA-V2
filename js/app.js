@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 // const form = document.querySelector('.formAjout');
 // const inputNom = document.getElementById('nom');
 // const inputNum = document.getElementById('numero');
@@ -12,6 +13,22 @@
 // const nbJoueurs = document.getElementById('nbJoueurs');
 // const nbPlaces = document.getElementById('nbPlaces');
 // const message = document.getElementById('message');
+=======
+// export const form = document.querySelector('.formAjout');
+// export const inputNom = document.getElementById('nom');
+// export const inputNum = document.getElementById('numero');
+// export const inputRadio = document.querySelectorAll("input[name='poste']");
+// export const listeJoueurs = document.getElementById('listeJoueurs');
+// export const dialog = document.getElementById('dialogAjout');
+// export const h1Ajout = document.getElementById('h1Ajout');
+// export const btnValider = document.getElementById('btnValider');
+// export const btnOuvrir = document.getElementById('btnOuvrir');
+// export const btnAnnuler = document.getElementById('btnAnnuler');
+// export const btnFermer = document.getElementById('btnFermer');
+// export const nbJoueurs = document.getElementById('nbJoueurs');
+// export const nbPlaces = document.getElementById('nbPlaces');
+// export const message = document.getElementById('message');
+>>>>>>> Stashed changes
 
 // let idEnModification = null;
 // let timerMessage;
@@ -50,10 +67,40 @@
 //     });
 // }
 
+<<<<<<< Updated upstream
+=======
+// if (btnAnnuler) {
+//     btnAnnuler.addEventListener('click', (e) => {
+//         e.preventDefault();
+//         dialog.hidePopover();
+//         reinitialiserFormulaire();
+//     });
+// }
+
+// if (btnFermer) {
+//     btnFermer.addEventListener('click', () => {
+//         dialog.hidePopover();
+//         reinitialiserFormulaire();
+//     });
+// }
+
+>>>>>>> Stashed changes
 // if (btnOuvrir) {
 //     btnOuvrir.addEventListener('click', () => {
 //         reinitialiserFormulaire();
 //     });
+<<<<<<< Updated upstream
+=======
+// }
+
+// form.addEventListener('click', (e) => {
+//     e.stopPropagation();
+// });
+
+// function validerNom(nom) {
+//     const regex = /^[a-zA-ZÀ-ÿ\s]{3,30}$/;
+//     return regex.test(nom.trim());
+>>>>>>> Stashed changes
 // }
 
 // form.addEventListener('click', (e) => {
@@ -84,11 +131,21 @@
 //     return false;
 // }
 
+<<<<<<< Updated upstream
 // // function mettreAJourTerrain() {
 // //     const slots = document.querySelectorAll('.slot, .keeper');
 // //     for (let i = 0; i < slots.length; i++) {
 // //         const posCode = slots[i].getAttribute('data-position');
 // //         let joueurTrouve = null;
+=======
+// function postePertesCompatibilite(poste, targetPos) {
+//     if (poste === 'gardien' && targetPos === 'gb') return true;
+//     if (poste === 'defenseur' && ['dg', 'dc1', 'dc2', 'dd'].includes(targetPos)) return true;
+//     if (poste === 'milieu' && ['mg', 'mc1', 'mc2', 'md'].includes(targetPos)) return true;
+//     if (poste === 'attaquant' && ['bu1', 'bu2'].includes(targetPos)) return true;
+//     return false;
+// }
+>>>>>>> Stashed changes
 
 // //         for (let j = 0; j < joueurs.length; j++) {
 // //             if (joueurs[j].position === posCode) {
@@ -277,5 +334,79 @@
 //         sauvegarder();
 //     });
 
+<<<<<<< Updated upstream
+=======
+//     if (nbJoueurs) nbJoueurs.textContent = joueurs.length;
+//     if (nbPlaces) nbPlaces.textContent = countPlaces;
+//     mettreAJourTerrain();
+// }
+
+// function sauvegarder() {
+//     localStorage.setItem('joueurs', JSON.stringify(joueurs));
+//     afficherJoueurs();
+// }
+
+// document.addEventListener('DOMContentLoaded', () => {
+//     if (!form) return;
+
+//     form.addEventListener('submit', (e) => {
+//         e.preventDefault();
+
+//         const valueNom = inputNom.value.trim();
+//         const valueNum = parseInt(inputNum.value.trim());
+//         let checkedRadio = "";
+
+//         for (let i = 0; i < inputRadio.length; i++) {
+//             if (inputRadio[i].checked) {
+//                 checkedRadio = inputRadio[i].value;
+//             }
+//         }
+
+//         if (!validerNom(valueNom)) {
+//             afficherMessage("Nom invalide (3-30 lettres).", true);
+//             return;
+//         }
+
+//         if (!validerNumero(valueNum)) {
+//             afficherMessage("Numéro invalide ou déjà pris.", true);
+//             return;
+//         }
+
+//         if (!checkedRadio) {
+//             afficherMessage("Sélectionnez un poste.", true);
+//             return;
+//         }
+
+//         if (idEnModification !== null) {
+//             for (let i = 0; i < joueurs.length; i++) {
+//                 if (joueurs[i].id === idEnModification) {
+//                     joueurs[i].nom = valueNom;
+//                     joueurs[i].numero = valueNum;
+//                     if (joueurs[i].poste !== checkedRadio) {
+//                         joueurs[i].poste = checkedRadio;
+//                         joueurs[i].position = 'banc';
+//                     }
+//                     break;
+//                 }
+//             }
+//             afficherMessage("Joueur modifié avec succès");
+//         } else {
+//             const nouveauJoueur = {
+//                 id: Date.now(),
+//                 nom: valueNom,
+//                 numero: valueNum,
+//                 poste: checkedRadio,
+//                 position: 'banc'
+//             };
+//             joueurs.push(nouveauJoueur);
+//             afficherMessage("Joueur ajouté avec succès");
+//         }
+
+//         dialog.hidePopover();
+//         reinitialiserFormulaire();
+//         sauvegarder();
+//     });
+
+>>>>>>> Stashed changes
 //     afficherJoueurs();
 // });
